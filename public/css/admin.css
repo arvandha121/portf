@@ -5,8 +5,6 @@ body {
 .sidebar {
     width: 72px;
     transition: width 0.3s ease;
-    background-color: #f8fafc;
-    border-right: 1px solid #e5e7eb;
 }
 
 .sidebar:hover {
@@ -31,6 +29,14 @@ body {
     display: inline;
 }
 
+.sidebar::-webkit-scrollbar {
+    width: 6px;
+}
+.sidebar::-webkit-scrollbar-thumb {
+    background-color: #d1d5db;
+    border-radius: 3px;
+}
+
 .nav-item {
     display: flex;
     align-items: center;
@@ -46,4 +52,11 @@ body {
 .nav-item:hover {
     background-color: #e0f2fe;
     color: #1d4ed8;
+}
+
+/* Optional untuk transisi halus */
+input,
+select,
+button {
+    transition: all 0.2s ease-in-out;
 }

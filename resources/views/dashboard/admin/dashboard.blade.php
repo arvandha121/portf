@@ -10,7 +10,7 @@
         </div>
         <div class="bg-white rounded-lg shadow p-4 border-l-4 border-green-400">
             <div class="text-sm text-gray-500">SKILL</div>
-            <div class="text-2xl font-bold text-gray-800">#</div>
+            <div class="text-2xl font-bold text-gray-800">{{ $totalSkills }}</div>
         </div>
         <div class="bg-white rounded-lg shadow p-4 border-l-4 border-blue-400">
             <div class="text-sm text-gray-500">CERTIFICATION</div>

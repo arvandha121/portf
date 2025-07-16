@@ -1,0 +1,66 @@
+.card {
+    background: #ffffff;
+    border: 1px solid #e5e7eb;
+    border-radius: 1rem;
+    padding: 1.5rem;
+    margin-bottom: 2rem;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
+}
+
+.form-input {
+    border: 1px solid #d1d5db;
+    padding: 0.5rem 0.75rem;
+    border-radius: 0.5rem;
+    width: 100%;
+    outline: none;
+}
+
+.form-input:focus {
+    border-color: #3b82f6;
+    box-shadow: 0 0 0 1px #3b82f6;
+}
+
+.btn {
+    padding: 0.5rem 1rem;
+    border-radius: 0.5rem;
+    font-weight: 600;
+    transition: all 0.2s ease-in-out;
+}
+
+.btn-blue {
+    background-color: #3b82f6;
+    color: white;
+}
+
+.btn-blue:hover {
+    background-color: #2563eb;
+}
+
+.btn-green {
+    background-color: #10b981;
+    color: white;
+}
+
+.btn-green:hover {
+    background-color: #059669;
+}
+
+.btn-danger {
+    color: #ef4444;
+}
+
+.scroll-x {
+    overflow-x: auto;
+    display: flex;
+    gap: 1rem;
+    padding-bottom: 0.5rem;
+}
+
+.subskill-card {
+    min-width: 260px;
+    background: #f9fafb;
+    border: 1px solid #e5e7eb;
+    border-radius: 0.75rem;
+    padding: 1rem;
+    flex-shrink: 0;
+}
