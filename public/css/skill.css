@@ -1,0 +1,17 @@
+.skill-card {
+    transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
+}
+
+.skill-card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.05);
+}
+
+.skill-section {
+    scroll-margin-top: 100px; /* kalau pakai anchor, biar gak nabrak sticky header */
+    margin-top: 40px; /* dorong lebih ke atas */
+}
+body,
+.skill-section {
+    font-family: "Poppins", sans-serif;
+}

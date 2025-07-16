@@ -1,7 +1,7 @@
 @extends('dashboard.layouts.index')
 
 @section('content')
-    <section class="hero">
+    <section class="hero bg-gray-50">
         <div class="hero-container">
             {{-- Social Icons --}}
             <div class="social-icons">
@@ -36,8 +36,4 @@
             </div>
         </div>
     </section>
-
-    <script>
-        feather.replace();
-    </script>
 @endsection

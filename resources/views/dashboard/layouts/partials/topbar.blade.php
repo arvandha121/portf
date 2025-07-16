@@ -12,20 +12,17 @@
                     class="{{ request()->is('/') ? 'text-cyan-500 font-semibold' : 'hover:text-cyan-500' }}">
                     Home
                 </a>
-                <a href="#about"
-                    class="{{ request()->is('#about') ? 'text-cyan-500 font-semibold' : 'hover:text-cyan-500' }}">
+                <a href="#about" class="hover:text-cyan-500">
                     About
                 </a>
-                <a href="#skills"
-                    class="{{ request()->is('#skills') ? 'text-cyan-500 font-semibold' : 'hover:text-cyan-500' }}">
+                <a href="{{ route('layoutskill') }}"
+                    class="{{ request()->is('skill') ? 'text-cyan-500 font-semibold' : 'hover:text-cyan-500' }}">
                     Skills
                 </a>
-                <a href="#certification"
-                    class="{{ request()->is('#certification') ? 'text-cyan-500 font-semibold' : 'hover:text-cyan-500' }}">
+                <a href="#certification" class="hover:text-cyan-500">
                     Certification
                 </a>
-                <a href="#portfolio"
-                    class="{{ request()->is('#portfolio') ? 'text-cyan-500 font-semibold' : 'hover:text-cyan-500' }}">
+                <a href="#portfolio" class="hover:text-cyan-500">
                     Portfolio
                 </a>
             </nav>
@@ -41,7 +38,8 @@
                     class="hidden absolute right-0 mt-3 w-48 rounded-md bg-white shadow-lg border border-gray-100 py-2 text-sm z-50">
                     <a href="{{ route('home') }}" class="block px-4 py-2 hover:bg-gray-100 text-gray-700">Home</a>
                     <a href="#about" class="block px-4 py-2 hover:bg-gray-100 text-gray-700">About</a>
-                    <a href="#skills" class="block px-4 py-2 hover:bg-gray-100 text-gray-700">Skills</a>
+                    <a href="{{ route('layoutskill') }}"
+                        class="block px-4 py-2 hover:bg-gray-100 text-gray-700">Skills</a>
                     <a href="#certification" class="block px-4 py-2 hover:bg-gray-100 text-gray-700">Certification</a>
                     <a href="#portfolio" class="block px-4 py-2 hover:bg-gray-100 text-gray-700">Portfolio</a>
                 </div>
@@ -49,45 +47,3 @@
         </div>
     </div>
 </header>
-
-<script>
-    document.addEventListener('DOMContentLoaded', () => {
-        const menuBtn = document.getElementById('mobile-menu-button');
-        const menu = document.getElementById('mobile-menu');
-
-        menuBtn.addEventListener('click', () => {
-            menu.classList.toggle('hidden');
-        });
-
-        menu.querySelectorAll('a').forEach(link => {
-            link.addEventListener('click', () => {
-                menu.classList.add('hidden');
-            });
-        });
-
-        // Highlight nav link on scroll (for anchors like #about, etc.)
-        const sections = document.querySelectorAll('section[id]');
-        const navLinks = document.querySelectorAll('nav a, #mobile-menu a');
-
-        function setActiveSection() {
-            let scrollY = window.pageYOffset;
-
-            sections.forEach(current => {
-                const sectionHeight = current.offsetHeight;
-                const sectionTop = current.offsetTop - 100;
-                const sectionId = current.getAttribute('id');
-
-                if (scrollY > sectionTop && scrollY <= sectionTop + sectionHeight) {
-                    navLinks.forEach(link => {
-                        link.classList.remove('text-cyan-500', 'font-semibold');
-                        if (link.getAttribute('href') === `#${sectionId}`) {
-                            link.classList.add('text-cyan-500', 'font-semibold');
-                        }
-                    });
-                }
-            });
-        }
-
-        window.addEventListener('scroll', setActiveSection);
-    });
-</script>

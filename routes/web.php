@@ -19,6 +19,7 @@ use App\Http\Controllers\ContactController;
 */
 
 Route::get('/', [DashboardController::class, 'index'])->name('home');
+Route::get('/skill', [DashboardController::class, 'layoutskill'])->name('layoutskill');
 
 Route::get('/login', [AuthController::class, 'loginForm'])->name('login');
 Route::post('/login', [AuthController::class, 'login']);

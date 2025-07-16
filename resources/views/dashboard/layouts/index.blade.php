@@ -9,13 +9,16 @@
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://unpkg.com/feather-icons"></script>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="{{ asset('css/home-layouts.css') }}">
     <link rel="stylesheet" href="{{ asset('css/topbars.css') }}">
     <link rel="stylesheet" href="{{ asset('css/contact.css') }}">
     <link rel="stylesheet" href="{{ asset('css/footer-layouts.css') }}">
+    <link rel="stylesheet" href="{{ asset('css/skill.css') }}">
+    <script src="{{ asset('js/main.js') }}"></script>
 </head>
 
-<body class="min-h-screen flex flex-col">
+<body class="min-h-screen flex flex-col bg-gray-50">
 
     {{-- Navbar --}}
     @include('dashboard.layouts.partials.topbar')
