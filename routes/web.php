@@ -67,3 +67,4 @@ Route::post('/admin/profile/update', [AdminController::class, 'updateProfile'])-
 
 Route::get('/contact', [ContactController::class, 'create'])->name('contact.create');
 Route::post('/contact', [ContactController::class, 'store'])->name('contact.store');
+Route::get('/emaillog', [ContactController::class, 'index'])->name('admin.emaillog');

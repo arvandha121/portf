@@ -11,6 +11,12 @@ use App\Mail\ContactMessageMail;
 
 class ContactController extends Controller
 {
+    public function index()
+    {
+        $contacts = Contact::orderBy('created_at', 'desc')->get();
+        return view('dashboard.layouts.email.log.emaillog', compact('contacts'));
+    }
+
     public function create()
     {
         return view('dashboard.layouts.email.contact');
