@@ -1,0 +1,155 @@
+/* Base Hero Section */
+.hero {
+    background-color: #ffffff;
+    min-height: 82.5vh;
+    display: flex;
+    align-items: center;
+    padding: 3rem 1.5rem;
+}
+
+@media (min-width: 1024px) {
+    .hero {
+        padding-left: 6rem;
+        padding-right: 6rem;
+    }
+}
+
+.hero-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 2.5rem;
+}
+
+@media (min-width: 768px) {
+    .hero-container {
+        flex-direction: row;
+        justify-content: space-between;
+        align-items: center;
+    }
+}
+
+/* Social Icons */
+.social-icons {
+    display: none;
+}
+
+@media (min-width: 768px) {
+    .social-icons {
+        position: fixed;
+        left: 1rem;
+        top: 50%;
+        transform: translateY(-50%);
+        display: flex;
+        flex-direction: column;
+        gap: 1.5rem;
+        color: #3b82f6;
+        z-index: 10;
+    }
+
+    .social-icons a:hover {
+        color: #2563eb;
+    }
+}
+
+/* Hero Image */
+.hero-img {
+    display: flex;
+    justify-content: center;
+    order: -1;
+}
+
+@media (min-width: 768px) {
+    .hero-img {
+        order: 1;
+    }
+}
+
+.hero-img img {
+    width: 220px;
+    height: 220px;
+    object-fit: cover;
+    border-radius: 50%;
+    border: 4px solid #e5e7eb;
+    box-shadow: 0 10px 15px rgba(0, 0, 0, 0.1);
+}
+
+@media (min-width: 768px) {
+    .hero-img img {
+        width: 300px;
+        height: 300px;
+    }
+}
+
+/* Hero Text */
+.hero-text {
+    flex: 1;
+    text-align: center;
+}
+
+@media (min-width: 768px) {
+    .hero-text {
+        text-align: left;
+        padding-right: 2rem;
+    }
+}
+
+.hero-text h2 {
+    font-size: 1.25rem;
+    color: #4b5563;
+    margin-bottom: 0.25rem;
+}
+
+.hero-text h1 {
+    font-size: 2.5rem;
+    font-weight: 700;
+    color: #1f2937;
+    margin-bottom: 0.5rem;
+}
+
+.hero-text h3 {
+    font-size: 1.125rem;
+    color: #374151;
+    font-weight: 600;
+    margin-bottom: 1rem;
+}
+
+.hero-text p {
+    font-size: 1rem;
+    color: #6b7280;
+    line-height: 1.75;
+    margin-bottom: 1.5rem;
+    max-width: 600px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+@media (min-width: 768px) {
+    .hero-text p {
+        margin-left: 0;
+        margin-right: 0;
+    }
+}
+
+/* Contact Button */
+.btn-contact {
+    display: inline-flex;
+    align-items: center;
+    background-color: #06b6d4;
+    color: white;
+    font-weight: 600;
+    padding: 0.75rem 1.5rem;
+    border-radius: 8px;
+    transition: background-color 0.3s ease;
+    text-decoration: none;
+}
+
+.btn-contact:hover {
+    background-color: #0891b2;
+}
+
+.btn-contact i {
+    margin-left: 0.5rem;
+}

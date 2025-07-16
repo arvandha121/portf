@@ -1,0 +1,32 @@
+html,
+body {
+    height: 100%;
+    margin: 0;
+}
+
+body {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+}
+
+main {
+    flex: 1;
+}
+
+/* Footer Styling */
+.footer {
+    background-color: #f9fafb;
+    border-top: 1px solid #e5e7eb;
+    text-align: center;
+    padding: 1rem;
+    color: #6b7280;
+    font-size: 0.9rem;
+    position: relative;
+    z-index: 10;
+}
+
+.footer-container {
+    max-width: 1200px;
+    margin: 0 auto;
+}

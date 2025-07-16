@@ -1,0 +1,87 @@
+.contact-form-section {
+    min-height: calc(
+        100vh - 120px
+    ); /* Sesuaikan dengan tinggi header + footer */
+    background: #f9fafb;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 2rem 1rem;
+}
+
+.form-container {
+    background: white;
+    padding: 2rem;
+    border-radius: 1rem;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
+    max-width: 500px;
+    width: 100%;
+}
+
+.form-container h2 {
+    font-size: 1.75rem;
+    font-weight: 700;
+    margin-bottom: 1.5rem;
+    color: #0f172a;
+    text-align: center;
+}
+
+.contact-form .form-group {
+    margin-bottom: 1.25rem;
+}
+
+.contact-form label {
+    display: block;
+    margin-bottom: 0.5rem;
+    color: #334155;
+    font-weight: 600;
+}
+
+.contact-form input,
+.contact-form textarea {
+    width: 100%;
+    padding: 0.75rem 1rem;
+    border: 1px solid #d1d5db;
+    border-radius: 0.5rem;
+    font-size: 1rem;
+    transition: border-color 0.3s;
+}
+
+.contact-form input:focus,
+.contact-form textarea:focus {
+    border-color: #06b6d4;
+    outline: none;
+}
+
+.submit-button {
+    width: 100%;
+    background-color: #06b6d4;
+    color: white;
+    padding: 0.75rem;
+    border: none;
+    border-radius: 0.5rem;
+    font-weight: 600;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.submit-button:hover {
+    background-color: #0891b2;
+}
+
+.alert-success {
+    background-color: #dcfce7;
+    color: #166534;
+    padding: 0.75rem 1rem;
+    border-radius: 0.5rem;
+    margin-bottom: 1rem;
+    font-weight: 500;
+}
+
+.form-error {
+    color: #ef4444;
+    font-size: 0.875rem;
+    margin-top: 0.25rem;
+    display: block;
+}

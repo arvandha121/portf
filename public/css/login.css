@@ -1,0 +1,18 @@
+body {
+    font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+}
+
+.login-box {
+    backdrop-filter: blur(6px);
+    border: 1px solid rgba(0, 0, 0, 0.05);
+}
+
+.form-input:focus {
+    transition: all 0.2s ease-in-out;
+}
+
+@media (max-width: 400px) {
+    h1 {
+        font-size: 1.5rem;
+    }
+}
