@@ -9,6 +9,7 @@ use App\Models\User;
 use App\Models\Skill;
 use App\Models\SkillDetail; 
 use App\Models\Sosmed;
+use App\Models\Activity;
 
 class AdminController extends Controller
 {
@@ -21,8 +22,14 @@ class AdminController extends Controller
 
         $totalUsers = User::count();
         $totalSkills = Skill::count();
+        $activities = Activity::where('user_id', $user->id)
+                            ->latest()
+                            ->take(5)
+                            ->get();
 
-        return view('dashboard.admin.dashboard', compact('totalSkills', 'totalUsers', 'user'));
+        return view('dashboard.admin.dashboard', compact(
+            'totalSkills', 'totalUsers', 'user', 'activities'
+        ));
     }
 
     // =================
@@ -49,29 +56,55 @@ class AdminController extends Controller
             'title' => 'required|string|max:255',
         ]);
 
-        Skill::create([
+        $skill = Skill::create([
             'user_id' => session('user_id'),
             'title' => $request->title,
+        ]);
+
+        // Tambah activity otomatis
+        Activity::create([
+            'user_id' => session('user_id'),
+            'description' => 'Added new skill: ' . $request->title,
+            'icon' => 'plus-circle',
+            'color' => 'cyan-500',
         ]);
 
         return back()->with('success', 'Skill berhasil ditambahkan.');
     }
 
     public function updateSkill(Request $request, $id) {
-        $request->validate([
+       $request->validate([
             'title' => 'required|string|max:255',
         ]);
 
         $skill = Skill::findOrFail($id);
+        $oldTitle = $skill->title;
         $skill->title = $request->title;
         $skill->save();
+
+        // Tambah activity otomatis
+        Activity::create([
+            'user_id' => session('user_id'),
+            'description' => "Updated skill: {$oldTitle} → {$skill->title}",
+            'icon' => 'edit',
+            'color' => 'yellow-500',
+        ]);
 
         return redirect()->route('admin.skill')->with('success', 'Skill title updated successfully.');
     }
 
     public function deleteSkill($id) {
         $skill = Skill::findOrFail($id);
+        $deletedTitle = $skill->title;
         $skill->delete();
+
+        // Tambah activity otomatis
+        Activity::create([
+            'user_id' => session('user_id'),
+            'description' => 'Deleted skill: ' . $deletedTitle,
+            'icon' => 'trash-2',
+            'color' => 'red-500',
+        ]);
 
         return back()->with('success', 'Skill berhasil dihapus.');
     }
@@ -83,11 +116,19 @@ class AdminController extends Controller
             'percentage' => 'required|integer|min:0|max:100',
         ]);
 
-        SkillDetail::create([
+        $detail = SkillDetail::create([
             'skill_id' => $skillId,
             'subtitle' => $request->subtitle,
             'experience' => $request->experience,
             'percentage' => $request->percentage,
+        ]);
+
+        // Logging activity
+        Activity::create([
+            'user_id' => session('user_id'),
+            'description' => 'Added new skill detail: ' . $request->subtitle,
+            'icon' => 'plus',
+            'color' => 'cyan-500',
         ]);
 
         return back()->with('success', 'Detail skill berhasil ditambahkan.');
@@ -101,17 +142,36 @@ class AdminController extends Controller
         ]);
 
         $detail = SkillDetail::findOrFail($id);
+        $oldSubtitle = $detail->subtitle;
+
         $detail->subtitle = $request->subtitle;
         $detail->experience = $request->experience;
         $detail->percentage = $request->percentage;
         $detail->save();
+
+        // Logging activity
+        Activity::create([
+            'user_id' => session('user_id'),
+            'description' => "Updated skill detail: {$oldSubtitle} → {$detail->subtitle}",
+            'icon' => 'edit-2',
+            'color' => 'yellow-500',
+        ]);
 
         return redirect()->route('admin.skill')->with('success', 'Skill detail updated.');
     }
 
     public function deleteSkillDetail($id) {
         $detail = SkillDetail::findOrFail($id);
+        $deletedSubtitle = $detail->subtitle;
         $detail->delete();
+
+        // Logging activity
+        Activity::create([
+            'user_id' => session('user_id'),
+            'description' => 'Deleted skill detail: ' . $deletedSubtitle,
+            'icon' => 'trash-2',
+            'color' => 'red-500',
+        ]);
 
         return back()->with('success', 'Detail skill berhasil dihapus.');
     }
@@ -150,14 +210,39 @@ class AdminController extends Controller
         ]);
 
         $user = User::find(session('user_id'));
+
+        $oldName = $user->name;
+        $oldEmail = $user->email;
+
         $user->name = $request->name;
         $user->email = $request->email;
 
+        $passwordChanged = false;
         if ($request->filled('password')) {
             $user->password = Hash::make($request->password);
+            $passwordChanged = true;
         }
 
         $user->save();
+
+        // Logging
+        $activityText = 'Updated profile';
+        if ($oldName !== $request->name) {
+            $activityText .= ": name changed from $oldName to $request->name";
+        }
+        if ($oldEmail !== $request->email) {
+            $activityText .= ", email changed from $oldEmail to $request->email";
+        }
+        if ($passwordChanged) {
+            $activityText .= ", password updated";
+        }
+
+        Activity::create([
+            'user_id' => session('user_id'),
+            'description' => $activityText,
+            'icon' => 'user',
+            'color' => 'indigo-500',
+        ]);
 
         return redirect()->route('admin.profile')->with('success', 'Profile updated successfully.');
     }
@@ -176,16 +261,24 @@ class AdminController extends Controller
     // Simpan sosial media baru
     public function storeSosmed(Request $request) {
         $request->validate([
-            'platform' => 'required|string',
-            'username' => 'nullable|string',
+            'platform' => 'required|string|max:255',
             'url' => 'required|url',
+            'username' => 'nullable|string|max:255',
         ]);
 
-        Sosmed::create([
+        $sosmed = Sosmed::create([
             'user_id' => session('user_id'),
             'platform' => $request->platform,
             'username' => $request->username,
             'url' => $request->url,
+        ]);
+
+        // Logging aktivitas
+        Activity::create([
+            'user_id' => session('user_id'),
+            'description' => 'Added new social media: ' . $request->platform,
+            'icon' => 'plus-circle',
+            'color' => 'cyan-500',
         ]);
 
         return back()->with('success', 'Sosial media berhasil ditambahkan.');
@@ -194,13 +287,27 @@ class AdminController extends Controller
     // Update sosial media
     public function updateSosmed(Request $request, $id) {
         $request->validate([
-            'platform' => 'required|string',
-            'username' => 'nullable|string',
+            'platform' => 'required|string|max:255',
             'url' => 'required|url',
+            'username' => 'nullable|string|max:255',
         ]);
 
         $sosmed = Sosmed::findOrFail($id);
-        $sosmed->update($request->only(['platform', 'username', 'url']));
+        $oldPlatform = $sosmed->platform;
+
+        $sosmed->update([
+            'platform' => $request->platform,
+            'username' => $request->username,
+            'url' => $request->url,
+        ]);
+
+        // Logging aktivitas
+        Activity::create([
+            'user_id' => session('user_id'),
+            'description' => "Updated social media: {$oldPlatform} → {$request->platform}",
+            'icon' => 'refresh-ccw',
+            'color' => 'yellow-500',
+        ]);
 
         return back()->with('success', 'Sosial media berhasil diperbarui.');
     }
@@ -208,7 +315,17 @@ class AdminController extends Controller
     // Hapus sosial media
     public function deleteSosmed($id) {
         $sosmed = Sosmed::findOrFail($id);
+        $deletedPlatform = $sosmed->platform;
         $sosmed->delete();
+
+        // Logging aktivitas
+        Activity::create([
+            'user_id' => session('user_id'),
+            'description' => 'Deleted social media: ' . $deletedPlatform,
+            'icon' => 'trash-2',
+            'color' => 'red-500',
+        ]);
+
         return back()->with('success', 'Sosial media berhasil dihapus.');
     }
 }
