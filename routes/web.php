@@ -26,13 +26,19 @@ Route::post('/login', [AuthController::class, 'login']);
 Route::get('/logout', [AuthController::class, 'logout'])->name('logout');
 
 Route::middleware('custom.auth')->group(function () {
+    // =================
     // DASHBOARD ROUTES
+    // =================
     Route::get('/admin', [AdminController::class, 'index'])->name('admin.dashboard');
 
+    // =================
     // ABOUT ROUTES
+    // =================
     Route::get('/admin/about', [AdminController::class, 'about'])->name('admin.about');
     
+    // =================
     // SKILL ROUTES
+    // =================
     Route::get('/admin/skill', [AdminController::class, 'skills'])->name('admin.skill');
     Route::post('/admin/skills/create', [AdminController::class, 'storeSkill'])->name('admin.skills.create');
     Route::delete('/admin/skills/{id}/delete', [AdminController::class, 'deleteSkill'])->name('admin.skills.delete');
@@ -45,6 +51,14 @@ Route::middleware('custom.auth')->group(function () {
     
     Route::get('/admin/portf', [AdminController::class, 'portf'])->name('admin.portf');
     
+    // ================
+    // MEDSOS ROUTES
+    // =================
+    Route::get('/admin/medsos', [AdminController::class, 'medsos'])->name('admin.medsos');
+    Route::post('/admin/medsos/create', [AdminController::class, 'storeSosmed'])->name('admin.medsos.create');
+    Route::put('/admin/medsos/{id}/update', [AdminController::class, 'updateSosmed'])->name('admin.medsos.update');
+    Route::delete('/admin/medsos/{id}/delete', [AdminController::class, 'deleteSosmed'])->name('admin.medsos.delete');
+
     Route::get('/admin/settings', [AdminController::class, 'settings'])->name('admin.settings');
 });
 

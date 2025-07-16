@@ -8,6 +8,7 @@ use Illuminate\Support\Facades\Hash;
 use App\Models\User;
 use App\Models\Skill;
 use App\Models\SkillDetail; 
+use App\Models\Sosmed;
 
 class AdminController extends Controller
 {
@@ -24,12 +25,17 @@ class AdminController extends Controller
         return view('dashboard.admin.dashboard', compact('totalSkills', 'totalUsers', 'user'));
     }
 
+    // =================
+    // About
+    // =================
     public function about() {
         $user = User::find(session('user_id'));
         return view('dashboard.admin.about', compact('user'));
     }
 
+    // =================
     // Skills
+    // =================
     public function skills() {
         $user = User::find(session('user_id'));
 
@@ -110,7 +116,9 @@ class AdminController extends Controller
         return back()->with('success', 'Detail skill berhasil dihapus.');
     }
 
+    // =================
     // Sertif
+    // =================
     public function sertif() {
         $user = User::find(session('user_id'));
         return view('dashboard.admin.sertif', compact('user'));
@@ -126,7 +134,9 @@ class AdminController extends Controller
         return view('dashboard.admin.settings', compact('user'));
     }
 
+    // =================
     // Profile
+    // =================
     public function profile() {
         $user = User::find(session('user_id'));
         return view('dashboard.admin.profile', compact('user'));
@@ -152,12 +162,53 @@ class AdminController extends Controller
         return redirect()->route('admin.profile')->with('success', 'Profile updated successfully.');
     }
 
-    // Skills
-    // public function skills() {
-    //     $user = User::find(session('user_id'));
+    // =================
+    // Medsos
+    // ==================
 
-    //     $skills = Skill::with('details')->where('user_id', $user->id)->get();
+    // Tampilkan semua sosial media user
+    public function medsos() {
+        $user = User::find(session('user_id'));
+        $sosmeds = Sosmed::where('user_id', $user->id)->get();
+        return view('dashboard.admin.medsos', compact('user', 'sosmeds'));
+    }
 
-    //     return view('dashboard.admin.skill', compact('skills', 'user'));
-    // }
+    // Simpan sosial media baru
+    public function storeSosmed(Request $request) {
+        $request->validate([
+            'platform' => 'required|string',
+            'username' => 'nullable|string',
+            'url' => 'required|url',
+        ]);
+
+        Sosmed::create([
+            'user_id' => session('user_id'),
+            'platform' => $request->platform,
+            'username' => $request->username,
+            'url' => $request->url,
+        ]);
+
+        return back()->with('success', 'Sosial media berhasil ditambahkan.');
+    }
+
+    // Update sosial media
+    public function updateSosmed(Request $request, $id) {
+        $request->validate([
+            'platform' => 'required|string',
+            'username' => 'nullable|string',
+            'url' => 'required|url',
+        ]);
+
+        $sosmed = Sosmed::findOrFail($id);
+        $sosmed->update($request->only(['platform', 'username', 'url']));
+
+        return back()->with('success', 'Sosial media berhasil diperbarui.');
+    }
+
+    // Hapus sosial media
+    public function deleteSosmed($id) {
+        $sosmed = Sosmed::findOrFail($id);
+        $sosmed->delete();
+        return back()->with('success', 'Sosial media berhasil dihapus.');
+    }
 }

@@ -34,6 +34,11 @@
                 <i data-feather="image" class="w-6 h-6 mb-1"></i>
                 <span class="text-sm">Portfolio</span>
             </a>
+            <a href="{{ route('admin.medsos') }}"
+                class="flex flex-col items-center {{ request()->routeIs('admin.medsos') ? 'text-blue-600 font-semibold' : 'text-gray-700' }} hover:text-blue-600">
+                <i data-feather="target" class="w-6 h-6 mb-1"></i>
+                <span class="text-sm">Medsos</span>
+            </a>
             <a href="{{ route('admin.settings') }}"
                 class="flex flex-col items-center {{ request()->routeIs('admin.settings') ? 'text-blue-600 font-semibold' : 'text-gray-700' }} hover:text-blue-600">
                 <i data-feather="settings" class="w-6 h-6 mb-1"></i>

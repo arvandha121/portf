@@ -34,6 +34,12 @@
             <span class="sidebar-text">Portfolio</span>
         </a>
 
+        <a href="{{ route('admin.medsos') }}"
+            class="nav-item {{ request()->routeIs('admin.medsos') ? 'bg-gray-200 text-blue-600' : '' }}">
+            <i data-feather="target"></i>
+            <span class="sidebar-text">Medsos</span>
+        </a>
+
         <a href="{{ route('admin.settings') }}"
             class="nav-item {{ request()->routeIs('admin.settings') ? 'bg-gray-200 text-blue-600' : '' }}">
             <i data-feather="settings"></i>

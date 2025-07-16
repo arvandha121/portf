@@ -1,58 +1,69 @@
 document.addEventListener("DOMContentLoaded", function () {
     feather.replace();
 
-    // Toggle Dropdown Menu
+    // Dropdown Akun
     const dropdownButton = document.getElementById("dropdownButton");
     const dropdownMenu = document.getElementById("dropdownMenu");
+
     if (dropdownButton && dropdownMenu) {
-        dropdownButton.addEventListener("click", (e) => {
-            e.stopPropagation();
+        dropdownButton.addEventListener("click", () => {
             dropdownMenu.classList.toggle("hidden");
         });
+
         document.addEventListener("click", (e) => {
-            if (!dropdownMenu.contains(e.target)) {
+            if (
+                !dropdownButton.contains(e.target) &&
+                !dropdownMenu.contains(e.target)
+            ) {
                 dropdownMenu.classList.add("hidden");
             }
         });
     }
 
-    // Toggle Mobile Sidebar
-    const openBtn = document.getElementById("openMobileSidebar");
-    const closeBtn = document.getElementById("closeMobileSidebar");
+    // Sidebar Mobile
+    const openMobileSidebar = document.getElementById("openMobileSidebar");
+    const closeMobileSidebar = document.getElementById("closeMobileSidebar");
     const mobileSidebar = document.getElementById("mobileSidebar");
 
-    if (mobileSidebar && openBtn && closeBtn) {
-        openBtn.addEventListener("click", () => {
-            mobileSidebar.classList.remove("-translate-x-full");
-            document.body.classList.add("overflow-hidden");
+    if (openMobileSidebar && closeMobileSidebar && mobileSidebar) {
+        openMobileSidebar.addEventListener("click", () => {
+            mobileSidebar.classList.remove("translate-y-full");
         });
 
-        closeBtn.addEventListener("click", () => {
-            mobileSidebar.classList.add("-translate-x-full");
-            document.body.classList.remove("overflow-hidden");
+        closeMobileSidebar.addEventListener("click", () => {
+            mobileSidebar.classList.add("translate-y-full");
         });
 
+        document.addEventListener("click", (e) => {
+            if (
+                !mobileSidebar.contains(e.target) &&
+                !openMobileSidebar.contains(e.target)
+            ) {
+                mobileSidebar.classList.add("translate-y-full");
+            }
+        });
+
+        // Auto close on link click
         document.querySelectorAll("#mobileSidebar a").forEach((link) => {
             link.addEventListener("click", () => {
-                mobileSidebar.classList.add("-translate-x-full");
-                document.body.classList.remove("overflow-hidden");
+                mobileSidebar.classList.add("translate-y-full");
             });
         });
     }
 
-    // Expand Sidebar on Hover (Desktop)
+    // 🧠 Sidebar Hover Padding Handler
     const sidebar = document.querySelector(".sidebar");
     const mainContent = document.getElementById("main-content");
 
     if (sidebar && mainContent) {
         sidebar.addEventListener("mouseenter", () => {
-            mainContent.classList.remove("md:pl-[72px]");
-            mainContent.classList.add("md:pl-[240px]");
+            mainContent.classList.remove("pl-[72px]");
+            mainContent.classList.add("pl-[240px]");
         });
 
         sidebar.addEventListener("mouseleave", () => {
-            mainContent.classList.remove("md:pl-[240px]");
-            mainContent.classList.add("md:pl-[72px]");
+            mainContent.classList.remove("pl-[240px]");
+            mainContent.classList.add("pl-[72px]");
         });
     }
 });
