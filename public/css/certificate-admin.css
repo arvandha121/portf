@@ -1,0 +1,99 @@
+/* Shadow for card-like elements */
+.card-shadow {
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+}
+
+/* Dashed border style */
+.custom-border {
+    border: 2px dashed #6b7280;
+}
+
+/* Preview image styling */
+.img-preview {
+    max-height: 200px;
+    object-fit: cover;
+    border-radius: 8px;
+    border: 1px solid #ccc;
+}
+
+/* Responsive title and form size */
+.page-title {
+    font-size: 2.25rem;
+    font-weight: 700;
+    color: #1f2937;
+}
+
+/* Form container spacing */
+.form-section {
+    padding: 1.5rem;
+    background-color: #ffffff;
+    border-radius: 1rem;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.06);
+}
+
+/* Button styling */
+.btn-primary {
+    background-color: #2563eb;
+    color: white;
+    padding: 0.5rem 1.25rem;
+    border-radius: 0.5rem;
+    transition: background-color 0.2s;
+}
+
+.btn-primary:hover {
+    background-color: #1d4ed8;
+}
+
+.btn-danger {
+    color: #ef4444;
+    font-weight: 500;
+}
+
+.btn-danger:hover {
+    text-decoration: underline;
+}
+
+/* Grid styling for detail blocks */
+.detail-block {
+    background-color: #f9fafb;
+    padding: 1.25rem;
+    border-radius: 0.75rem;
+    border: 1px solid #e5e7eb;
+}
+
+/* Input fields */
+.input-field {
+    border: 1px solid #d1d5db;
+    border-radius: 0.5rem;
+    padding: 0.5rem 0.75rem;
+    width: 100%;
+    transition: border-color 0.2s;
+}
+
+.input-field:focus {
+    border-color: #3b82f6;
+    outline: none;
+}
+
+/* Heading inside card */
+.card-title {
+    font-size: 1.25rem;
+    font-weight: 600;
+    color: #111827;
+}
+
+/* Add media query for small screens */
+@media (max-width: 768px) {
+    .page-title {
+        font-size: 1.5rem;
+    }
+
+    .btn-primary {
+        width: 100%;
+        text-align: center;
+    }
+
+    .form-section {
+        padding: 1rem;
+    }
+}

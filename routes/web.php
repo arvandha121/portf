@@ -47,8 +47,17 @@ Route::middleware('custom.auth')->group(function () {
     Route::put('/admin/skills/{skill}', [AdminController::class, 'updateSkill'])->name('admin.skills.update');
     Route::put('/admin/skills/details/{detail}', [AdminController::class, 'updateSkillDetail'])->name('admin.skills.details.update');
 
+    // Certificate Routes
     Route::get('/admin/sertif', [AdminController::class, 'sertif'])->name('admin.sertif');
-    
+    Route::post('/admin/sertif/create', [AdminController::class, 'storeCertificate'])->name('admin.sertif.create');
+    Route::delete('/admin/sertif/{id}/delete', [AdminController::class, 'deleteCertificate'])->name('admin.sertif.delete');
+    Route::post('/admin/sertif/{id}/detail/create', [AdminController::class, 'storeCertificateDetail'])->name('admin.sertif.detail.create');
+    Route::delete('/admin/sertif/detail/{id}/delete', [AdminController::class, 'deleteCertificateDetail'])->name('admin.sertif.detail.delete');
+    Route::delete('/admin/sertif/detail/{id}/image/delete', [AdminController::class, 'deleteCertificateImage'])->name('admin.sertif.detail.image.delete');
+    Route::put('/admin/sertif/{id}/update', [AdminController::class, 'updateCertificate'])->name('admin.sertif.update');
+    Route::put('/admin/sertif/detail/{id}/update', [AdminController::class, 'updateCertificateDetail'])->name('admin.sertif.detail.update');
+
+
     Route::get('/admin/portf', [AdminController::class, 'portf'])->name('admin.portf');
     
     // ================

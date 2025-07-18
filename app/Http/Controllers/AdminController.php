@@ -5,11 +5,14 @@ namespace App\Http\Controllers;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Storage;
 use App\Models\User;
 use App\Models\Skill;
 use App\Models\SkillDetail; 
 use App\Models\Sosmed;
 use App\Models\Activity;
+use App\Models\Certificate;
+use App\Models\CertificateDetail;
 
 class AdminController extends Controller
 {
@@ -22,13 +25,14 @@ class AdminController extends Controller
 
         $totalUsers = User::count();
         $totalSkills = Skill::count();
+        $totalCertificates = Certificate::count();
         $activities = Activity::where('user_id', $user->id)
                             ->latest()
                             ->take(5)
                             ->get();
 
         return view('dashboard.admin.dashboard', compact(
-            'totalSkills', 'totalUsers', 'user', 'activities'
+            'totalSkills', 'totalUsers', 'totalCertificates', 'user', 'activities'
         ));
     }
 
@@ -176,14 +180,6 @@ class AdminController extends Controller
         return back()->with('success', 'Detail skill berhasil dihapus.');
     }
 
-    // =================
-    // Sertif
-    // =================
-    public function sertif() {
-        $user = User::find(session('user_id'));
-        return view('dashboard.admin.sertif', compact('user'));
-    }
-
     public function portf() {
         $user = User::find(session('user_id'));
         return view('dashboard.admin.portf', compact('user'));
@@ -328,4 +324,170 @@ class AdminController extends Controller
 
         return back()->with('success', 'Sosial media berhasil dihapus.');
     }
+
+    // ===============================
+    // Sertificates
+    // ===============================
+
+    public function sertif()
+    {
+        $user = User::find(session('user_id'));
+        $certificates = Certificate::with('details')
+            ->where('user_id', session('user_id'))
+            ->latest()
+            ->get();
+
+        return view('dashboard.admin.sertificate', compact('certificates', 'user'));
+    }
+
+    public function storeCertificate(Request $request)
+    {
+        $request->validate([
+            'title' => 'required|string|max:255'
+        ]);
+
+        Certificate::create([
+            'user_id' => session('user_id'),
+            'title' => $request->title,
+        ]);
+
+        return back()->with('success', 'Sertifikat berhasil ditambahkan');
+    }
+
+    public function updateCertificate(Request $request, $id)
+    {
+        $request->validate([
+            'title' => 'required|string|max:255',
+        ]);
+
+        $certificate = Certificate::where('id', $id)
+            ->where('user_id', session('user_id'))
+            ->firstOrFail();
+
+        $certificate->update(['title' => $request->title]);
+
+        return back()->with('success', 'Sertifikat berhasil diperbarui.');
+    }
+
+    public function deleteCertificate($id)
+    {
+        $certificate = Certificate::where('id', $id)
+            ->where('user_id', session('user_id'))
+            ->firstOrFail();
+
+        $certificate->details()->delete();
+        $certificate->delete();
+
+        return back()->with('success', 'Sertifikat berhasil dihapus');
+    }
+
+    public function storeCertificateDetail(Request $request, $certificateId)
+    {
+        $request->validate([
+            'subtitle' => 'required|string|max:255',
+            'description' => 'nullable|string|max:500',
+            'link' => 'nullable|url|max:255',
+            'image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
+        ]);
+
+        $certificate = Certificate::where('id', $certificateId)
+            ->where('user_id', session('user_id'))
+            ->firstOrFail();
+
+        $imagePath = null;
+        if ($request->hasFile('image')) {
+            $imagePath = $request->file('image')->store('certificate_images', 'public');
+        }
+
+        $certificate->details()->create([
+            'subtitle' => $request->subtitle,
+            'description' => $request->description,
+            'link' => $request->link,
+            'image' => $imagePath,
+        ]);
+
+        // Log aktivitas
+        Activity::create([
+            'user_id' => session('user_id'),
+            'description' => 'Menambahkan detail sertifikat: ' . $request->subtitle,
+            'icon' => 'plus-circle',
+            'color' => 'cyan-500',
+        ]);
+
+        return back()->with('success', 'Detail sertifikat berhasil ditambahkan.');
+    }
+
+    public function updateCertificateDetail(Request $request, $id)
+    {
+        $request->validate([
+            'subtitle' => 'required|string|max:255',
+            'description' => 'nullable|string|max:500',
+            'link' => 'nullable|url|max:255',
+            'image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
+        ]);
+
+        $detail = CertificateDetail::findOrFail($id);
+
+        if ($detail->certificate->user_id != session('user_id')) {
+            abort(403);
+        }
+
+        $data = $request->only(['subtitle', 'description', 'link']);
+
+        if ($request->hasFile('image')) {
+            if ($detail->image) {
+                Storage::disk('public')->delete($detail->image);
+            }
+            $data['image'] = $request->file('image')->store('certificate_images', 'public');
+        }
+
+        $detail->update($data);
+
+        return back()->with('success', 'Detail sertifikat berhasil diperbarui.');
+    }
+
+    public function deleteCertificateDetail($id)
+    {
+        $detail = CertificateDetail::findOrFail($id);
+
+        // Cek kepemilikan sertifikat
+        if ($detail->certificate->user_id != session('user_id')) {
+            abort(403);
+        }
+
+        $deletedTitle = $detail->subtitle;
+
+        if ($detail->image) {
+            Storage::disk('public')->delete($detail->image);
+        }
+
+        $detail->delete();
+
+        // Log aktivitas
+        Activity::create([
+            'user_id' => session('user_id'),
+            'description' => 'Menghapus detail sertifikat: ' . $deletedTitle,
+            'icon' => 'trash-2',
+            'color' => 'red-500',
+        ]);
+
+        return back()->with('success', 'Detail sertifikat berhasil dihapus.');
+    }
+
+    public function deleteCertificateImage($id)
+    {
+        $detail = CertificateDetail::findOrFail($id);
+
+        if ($detail->certificate->user_id != session('user_id')) {
+            abort(403);
+        }
+
+        if ($detail->image) {
+            Storage::disk('public')->delete($detail->image);
+            $detail->update(['image' => null]);
+        }
+
+        return back()->with('success', 'Gambar berhasil dihapus.');
+    }
+
 }

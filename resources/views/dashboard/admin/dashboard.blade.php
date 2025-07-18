@@ -23,7 +23,7 @@
         </div>
         <div class="bg-white rounded-xl shadow border-l-4 border-blue-400 p-5">
             <div class="text-xs text-gray-500 mb-1">CERTIFICATIONS</div>
-            <div class="text-3xl font-bold text-gray-800">#</div>
+            <div class="text-3xl font-bold text-gray-800">{{ $totalCertificates }}</div>
         </div>
         <div class="bg-white rounded-xl shadow border-l-4 border-yellow-400 p-5">
             <div class="text-xs text-gray-500 mb-1">PORTFOLIO</div>
@@ -41,14 +41,6 @@
             </div>
             <i data-feather="edit" class="text-cyan-500 w-6 h-6"></i>
         </a>
-        <a href="{{ route('admin.portf') }}"
-            class="bg-white border rounded-xl p-5 shadow hover:shadow-md transition flex items-center justify-between">
-            <div>
-                <p class="text-sm text-gray-600">Portfolio</p>
-                <p class="text-lg font-semibold text-gray-800">View</p>
-            </div>
-            <i data-feather="folder" class="text-yellow-500 w-6 h-6"></i>
-        </a>
         <a href="{{ route('admin.sertif') }}"
             class="bg-white border rounded-xl p-5 shadow hover:shadow-md transition flex items-center justify-between">
             <div>
@@ -56,6 +48,14 @@
                 <p class="text-lg font-semibold text-gray-800">Upload</p>
             </div>
             <i data-feather="award" class="text-green-500 w-6 h-6"></i>
+        </a>
+        <a href="{{ route('admin.portf') }}"
+            class="bg-white border rounded-xl p-5 shadow hover:shadow-md transition flex items-center justify-between">
+            <div>
+                <p class="text-sm text-gray-600">Portfolio</p>
+                <p class="text-lg font-semibold text-gray-800">View</p>
+            </div>
+            <i data-feather="folder" class="text-yellow-500 w-6 h-6"></i>
         </a>
         <a href="{{ route('admin.settings') }}"
             class="bg-white border rounded-xl p-5 shadow hover:shadow-md transition flex items-center justify-between">
