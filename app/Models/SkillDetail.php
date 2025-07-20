@@ -9,7 +9,12 @@ class SkillDetail extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['skill_id', 'subtitle', 'experience', 'percentage'];
+    protected $fillable = [
+        'skill_id', 
+        'subtitle', 
+        'experience', 
+        'percentage'
+    ];
 
     public function skill()
     {

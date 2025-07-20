@@ -3,15 +3,6 @@
 @section('content')
     <section class="hero bg-gray-50">
         <div class="hero-container">
-            {{-- Social Icons --}}
-            <div class="social-icons">
-                @foreach ($sosmeds as $sosmed)
-                    <a href="{{ $sosmed->url }}" target="_blank" title="{{ $sosmed->platform }}">
-                        <i data-feather="{{ strtolower($sosmed->platform) }}"></i>
-                    </a>
-                @endforeach
-            </div>
-
             {{-- Image - mobile di atas, desktop di kanan --}}
             <div class="hero-img">
                 <img src="{{ asset('images/profile.jpg') }}" alt="Profile Photo">

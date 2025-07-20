@@ -3,135 +3,112 @@
 @section('page-title', 'Manajemen Sertifikat')
 
 @section('content')
-    <div class="p-4 max-w-6xl mx-auto space-y-6">
-        {{-- Notifikasi --}}
-        @if (session('success'))
-            <div class="bg-green-100 border border-green-300 text-green-800 p-3 rounded-lg shadow-sm">
-                {{ session('success') }}
-            </div>
-        @endif
-
-        {{-- Form Tambah Sertifikat --}}
-        <form action="{{ route('admin.sertif.create') }}" method="POST" class="bg-white p-4 rounded-xl shadow-md space-y-4">
+    <div class="bg-white rounded-xl shadow p-6 border border-gray-200 mb-5">
+        <h2 class="text-lg font-semibold text-gray-800 mb-4">Tambah Sertifikat</h2>
+        {{-- Tambah Platform --}}
+        <form action="{{ route('admin.sertif.create') }}" method="POST" class="flex gap-4 mb-5">
             @csrf
-            <div class="flex flex-col md:flex-row gap-3">
-                <input type="text" name="title" placeholder="Tambahkan Platform Sertifikat"
-                    class="w-full border border-gray-300 p-3 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
-                    required>
-                <button type="submit"
-                    class="bg-blue-600 hover:bg-blue-700 text-white px-6 py-2 rounded-lg transition-all">Tambah</button>
-            </div>
+            <input type="text" name="title" placeholder="Tambah Platform Sertifikat"
+                class="flex-1 border border-gray-300 rounded-md px-3 py-2 focus:ring focus:ring-blue-300" required>
+            <button type="submit" class="bg-blue-600 hover:bg-blue-700 text-white rounded-md px-4">
+                Tambah
+            </button>
         </form>
-
-        {{-- Daftar Sertifikat --}}
+    </div>
+    {{-- Notifikasi --}}
+    @if (session('success'))
+        <div class="bg-green-100 border border-green-300 text-green-800 px-4 py-2 rounded-md mt-5 mb-5">
+            {{ session('success') }}
+        </div>
+    @endif
+    {{-- Daftar Sertifikat --}}
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
         @foreach ($certificates as $cert)
-            <div class="bg-white p-6 rounded-xl shadow space-y-4">
-                <div class="flex flex-col md:flex-row justify-between items-start md:items-center gap-2">
-                    {{-- Form Update Judul Sertifikat --}}
-                    <form action="{{ route('admin.sertif.update', $cert->id) }}" method="POST"
-                        class="flex flex-wrap gap-2 items-center">
-                        @csrf
-                        @method('PUT')
+            <div class="bg-white rounded-lg shadow p-5 space-y-4">
+                {{-- Header: Edit judul & delete --}}
+                <div class="flex items-center justify-between">
+                    <form action="{{ route('admin.sertif.update', $cert->id) }}" method="POST" class="flex gap-2 flex-1">
+                        @csrf @method('PUT')
                         <input type="text" name="title" value="{{ $cert->title }}"
-                            class="text-lg font-semibold border border-gray-300 px-3 py-1 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-400">
-                        <button type="submit"
-                            class="text-sm bg-yellow-500 hover:bg-yellow-600 text-white px-3 py-1 rounded-md">
+                            class="flex-1 border border-gray-300 rounded-md px-3 py-1" required>
+                        <button type="submit" class="bg-yellow-400 hover:bg-yellow-500 text-white rounded-md px-3">
                             Simpan
                         </button>
                     </form>
-
-                    {{-- Tombol Hapus --}}
                     <form action="{{ route('admin.sertif.delete', $cert->id) }}" method="POST">
                         @csrf @method('DELETE')
-                        <button type="submit" class="text-red-500 hover:underline text-sm">Hapus Sertifikat</button>
+                        <button class="text-red-600 hover:underline ml-2">Hapus</button>
                     </form>
                 </div>
 
-                {{-- Form Tambah Detail --}}
+                {{-- Form tambah detail --}}
                 <form action="{{ route('admin.sertif.detail.create', $cert->id) }}" method="POST"
-                    enctype="multipart/form-data" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-3 mt-3">
+                    enctype="multipart/form-data" class="grid grid-cols-1 sm:grid-cols-2 gap-3">
                     @csrf
-                    <input type="text" name="subtitle" placeholder="Judul Sertifikat"
-                        class="border border-gray-300 p-2 rounded-lg" required>
+                    <input type="text" name="subtitle" placeholder="Nama Sertifikat"
+                        class="border border-gray-300 rounded-md px-2 py-1" required>
                     <input type="text" name="description" placeholder="Deskripsi"
-                        class="border border-gray-300 p-2 rounded-lg">
+                        class="border border-gray-300 rounded-md px-2 py-1">
                     <input type="url" name="link" placeholder="Link Sertifikat"
-                        class="border border-gray-300 p-2 rounded-lg">
-                    <input type="file" name="image" accept="image/*" class="border border-gray-300 p-2 rounded-lg">
+                        class="border border-gray-300 rounded-md px-2 py-1">
+                    <input type="file" name="image" accept="image/*"
+                        class="border border-gray-300 rounded-md px-2 py-1">
                     <button type="submit"
-                        class="bg-green-600 hover:bg-green-700 text-white px-4 py-2 rounded-lg w-full md:w-auto transition-all">
+                        class="sm:col-span-2 bg-green-600 hover:bg-green-700 text-white rounded-md px-4 py-1 mt-2">
                         Tambah Detail
                     </button>
                 </form>
 
-                {{-- List Detail Sertifikat --}}
-                <div class="grid gap-4 mt-4">
+                {{-- List detail --}}
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
                     @foreach ($cert->details as $detail)
-                        <div class="border border-gray-200 p-4 rounded-lg bg-gray-50 space-y-4">
-                            {{-- Informasi Detail --}}
-                            <div class="space-y-2">
-                                <div class="flex justify-between items-center">
-                                    <p class="font-semibold text-lg">{{ $detail->subtitle }}</p>
-
-                                    {{-- Hapus Detail --}}
-                                    <form action="{{ route('admin.sertif.detail.delete', $detail->id) }}" method="POST"
-                                        onsubmit="return confirm('Hapus detail ini?')">
-                                        @csrf
-                                        @method('DELETE')
-                                        <button type="submit"
-                                            class="mt-0 inline-flex items-center gap-1 text-red-600 hover:text-red-800 border border-red-600 hover:border-red-800 px-3 py-1 rounded-md text-sm font-semibold transition-colors duration-200">
-                                            Hapus Detail
+                        <div class="border border-gray-200 rounded-md p-4 space-y-3">
+                            {{-- Judul + delete --}}
+                            <div class="flex justify-between items-start">
+                                <h4 class="font-semibold">{{ $detail->subtitle }}</h4>
+                                <form action="{{ route('admin.sertif.detail.delete', $detail->id) }}" method="POST">
+                                    @csrf @method('DELETE')
+                                    <button class="text-red-600 hover:underline text-sm">Hapus</button>
+                                </form>
+                            </div>
+                            {{-- Deskripsi & link --}}
+                            @if ($detail->description)
+                                <p class="text-gray-600 text-sm">{{ $detail->description }}</p>
+                            @endif
+                            @if ($detail->link)
+                                <a href="{{ $detail->link }}" target="_blank" class="text-blue-600 text-sm hover:underline">
+                                    🔗 Lihat
+                                </a>
+                            @endif
+                            {{-- Gambar --}}
+                            @if ($detail->image)
+                                <div class="relative">
+                                    <img src="{{ asset('storage/' . $detail->image) }}"
+                                        class="w-full h-32 object-cover rounded-md" alt="">
+                                    <form action="{{ route('admin.sertif.detail.image.delete', $detail->id) }}"
+                                        method="POST" class="absolute top-2 right-2">
+                                        @csrf @method('DELETE')
+                                        <button class="bg-red-500 text-white rounded-full p-1">
+                                            <i data-feather="x" class="w-4 h-4"></i>
                                         </button>
                                     </form>
                                 </div>
-                                @if ($detail->description)
-                                    <p class="text-sm text-gray-600">{{ $detail->description }}</p>
-                                @endif
-                                @if ($detail->link)
-                                    <a href="{{ $detail->link }}" target="_blank"
-                                        class="inline-block text-sm text-blue-600 hover:underline">
-                                        🔗 Lihat Sertifikat
-                                    </a>
-                                @endif
-
-                                @if ($detail->image)
-                                    <div class="relative group w-full md:w-64">
-                                        <img src="{{ asset('storage/' . $detail->image) }}" alt="Certificate Image"
-                                            class="w-full h-auto rounded-lg shadow-md">
-
-                                        <form action="{{ route('admin.sertif.detail.image.delete', $detail->id) }}"
-                                            method="POST" class="absolute top-2 right-2">
-                                            @csrf
-                                            @method('DELETE')
-                                            <button type="submit"
-                                                onclick="return confirm('Yakin ingin menghapus gambar ini?')"
-                                                class="bg-red-500 text-white rounded-full p-1 opacity-80 hover:opacity-100 transition">
-                                                <i data-feather="x" class="w-4 h-4"></i>
-                                            </button>
-                                        </form>
-                                    </div>
-                                @endif
-                            </div>
-
-                            {{-- Form Update --}}
+                            @endif
+                            {{-- Edit detail --}}
                             <form action="{{ route('admin.sertif.detail.update', $detail->id) }}" method="POST"
-                                enctype="multipart/form-data" class="grid grid-cols-1 md:grid-cols-4 gap-3">
+                                enctype="multipart/form-data" class="space-y-2">
                                 @csrf @method('PUT')
                                 <input type="text" name="subtitle" value="{{ $detail->subtitle }}"
-                                    class="border border-gray-300 p-2 rounded-lg" placeholder="Judul" required>
-                                <textarea name="description" rows="3" class="border border-gray-300 p-2 rounded-lg resize-y"
-                                    placeholder="Deskripsi">{{ $detail->description }}
-                                </textarea>
+                                    class="w-full border border-gray-300 rounded-md px-2 py-1" required>
+                                <textarea name="description" rows="2" class="w-full border border-gray-300 rounded-md px-2 py-1 resize-none">{{ $detail->description }}</textarea>
                                 <input type="url" name="link" value="{{ $detail->link }}"
-                                    class="border border-gray-300 p-2 rounded-lg" placeholder="Tautan">
+                                    class="w-full border border-gray-300 rounded-md px-2 py-1">
                                 <input type="file" name="image" accept="image/*"
-                                    class="border border-gray-300 p-2 rounded-lg">
-                                <div class="col-span-full flex justify-end">
-                                    <button type="submit"
-                                        class="bg-yellow-500 hover:bg-yellow-600 text-white px-4 py-2 rounded-lg">
-                                        Update
-                                    </button>
-                                </div>
+                                    class="w-full border border-gray-300 rounded-md px-2 py-1">
+                                <button type="submit"
+                                    class="bg-yellow-500 hover:bg-yellow-600 text-white rounded-md px-4 py-1">
+                                    Update
+                                </button>
                             </form>
                         </div>
                     @endforeach

@@ -23,6 +23,15 @@
     {{-- Navbar --}}
     @include('dashboard.layouts.partials.topbar')
 
+    {{-- Social Icons --}}
+    <div class="social-icons">
+        @foreach ($sosmeds as $sosmed)
+            <a href="{{ $sosmed->url }}" target="_blank" title="{{ $sosmed->platform }}">
+                <i data-feather="{{ strtolower($sosmed->platform) }}"></i>
+            </a>
+        @endforeach
+    </div>
+
     {{-- Konten utama --}}
     <main class="flex-1">
         @yield('content')

@@ -58,8 +58,11 @@ Route::middleware('custom.auth')->group(function () {
     Route::put('/admin/sertif/detail/{id}/update', [AdminController::class, 'updateCertificateDetail'])->name('admin.sertif.detail.update');
 
 
-    Route::get('/admin/portf', [AdminController::class, 'portf'])->name('admin.portf');
-    
+    Route::get('/admin/portf', [AdminController::class, 'portofolio'])->name('admin.portf');
+    Route::post('/admin/portf/store', [AdminController::class, 'storePortofolio'])->name('admin.portf.store');
+    Route::put('/admin/portf/update/{id}', [AdminController::class, 'updatePortofolio'])->name('admin.portf.update');
+    Route::delete('/admin/portf/delete/{id}', [AdminController::class, 'deletePortofolio'])->name('admin.portf.delete');
+
     // ================
     // MEDSOS ROUTES
     // =================

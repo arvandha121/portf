@@ -13,6 +13,7 @@ use App\Models\Sosmed;
 use App\Models\Activity;
 use App\Models\Certificate;
 use App\Models\CertificateDetail;
+use App\Models\ProjectPortofolio;
 
 class AdminController extends Controller
 {
@@ -178,11 +179,6 @@ class AdminController extends Controller
         ]);
 
         return back()->with('success', 'Detail skill berhasil dihapus.');
-    }
-
-    public function portf() {
-        $user = User::find(session('user_id'));
-        return view('dashboard.admin.portf', compact('user'));
     }
 
     public function settings() {
@@ -490,4 +486,73 @@ class AdminController extends Controller
         return back()->with('success', 'Gambar berhasil dihapus.');
     }
 
+    // ===========================
+    // Portofolio
+    // ===========================
+
+    public function portofolio() {
+        $user = User::find(session('user_id'));
+
+        $portofolios = ProjectPortofolio::where('user_id', $user->id)->get();
+        return view('dashboard.admin.portofolio', compact('user', 'portofolios'));
+    }
+    
+    public function storePortofolio(Request $request)
+    {
+        $request->validate([
+            'title' => 'required|string|max:255',
+            'description' => 'required|string',
+            'image' => 'required|image|mimes:jpg,jpeg,png|max:2048',
+        ]);
+
+        $imagePath = $request->file('image')->store('portofolio', 'public');
+
+        ProjectPortofolio::create([
+            'user_id' => session('user_id'),
+            'title' => $request->title,
+            'description' => $request->description,
+            'image' => $imagePath,
+        ]);
+
+        return redirect()->route('admin.portf')->with('success', 'Portofolio berhasil ditambahkan.');
+    }
+
+    public function updatePortofolio(Request $request, $id)
+    {
+        $portofolio = ProjectPortofolio::findOrFail($id);
+
+        $request->validate([
+            'title' => 'required|string|max:255',
+            'description' => 'required|string',
+            'image' => 'nullable|image|mimes:jpg,jpeg,png|max:2048',
+        ]);
+
+        if ($request->hasFile('image')) {
+            // Hapus gambar lama
+            if ($portofolio->image) {
+                Storage::disk('public')->delete($portofolio->image);
+            }
+
+            $imagePath = $request->file('image')->store('portofolio', 'public');
+            $portofolio->image = $imagePath;
+        }
+
+        $portofolio->title = $request->title;
+        $portofolio->description = $request->description;
+        $portofolio->save();
+
+        return redirect()->route('admin.portf')->with('success', 'Portofolio berhasil diupdate.');
+    }
+
+    public function deletePortofolio($id)
+    {
+        $portofolio = ProjectPortofolio::findOrFail($id);
+
+        if ($portofolio->image) {
+            Storage::disk('public')->delete($portofolio->image);
+        }
+
+        $portofolio->delete();
+        return redirect()->route('admin.portf')->with('success', 'Portofolio berhasil dihapus.');
+    }
 }
