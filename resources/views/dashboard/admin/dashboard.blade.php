@@ -27,7 +27,7 @@
         </div>
         <div class="bg-white rounded-xl shadow border-l-4 border-yellow-400 p-5">
             <div class="text-xs text-gray-500 mb-1">PORTFOLIO</div>
-            <div class="text-3xl font-bold text-gray-800">#</div>
+            <div class="text-3xl font-bold text-gray-800">{{ $totalPortofolios }}</div>
         </div>
     </div>
 

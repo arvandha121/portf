@@ -12,7 +12,8 @@
                     class="{{ request()->is('/') ? 'text-cyan-500 font-semibold' : 'hover:text-cyan-500' }}">
                     Home
                 </a>
-                <a href="#about" class="hover:text-cyan-500">
+                <a href="{{ route('about') }}"
+                    class="{{ request()->is('about') ? 'text-cyan-500 font-semibold' : 'hover:text-cyan-500' }}">
                     About
                 </a>
                 <a href="{{ route('layoutskill') }}"
@@ -37,7 +38,7 @@
                 <div id="mobile-menu"
                     class="hidden absolute right-0 mt-3 w-48 rounded-md bg-white shadow-lg border border-gray-100 py-2 text-sm z-50">
                     <a href="{{ route('home') }}" class="block px-4 py-2 hover:bg-gray-100 text-gray-700">Home</a>
-                    <a href="#about" class="block px-4 py-2 hover:bg-gray-100 text-gray-700">About</a>
+                    <a href="{{ route('about') }}" class="block px-4 py-2 hover:bg-gray-100 text-gray-700">About</a>
                     <a href="{{ route('layoutskill') }}"
                         class="block px-4 py-2 hover:bg-gray-100 text-gray-700">Skills</a>
                     <a href="#certification" class="block px-4 py-2 hover:bg-gray-100 text-gray-700">Certification</a>

@@ -8,6 +8,7 @@ use App\Models\User;
 use App\Models\Sosmed;
 use App\Models\Skill;
 use App\Models\SkillDetail;
+use App\Models\AboutMe;
 
 class DashboardController extends Controller
 {
@@ -33,5 +34,10 @@ class DashboardController extends Controller
 
     public function details() {
         return $this->hasMany(SkillDetail::class);
+    }
+
+    public function aboutme() {
+        $about = AboutMe::first();
+        return view('dashboard.layouts.about', compact('about'));
     }
 }

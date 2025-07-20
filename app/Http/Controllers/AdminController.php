@@ -14,6 +14,7 @@ use App\Models\Activity;
 use App\Models\Certificate;
 use App\Models\CertificateDetail;
 use App\Models\ProjectPortofolio;
+use App\Models\AboutMe;
 
 class AdminController extends Controller
 {
@@ -27,22 +28,105 @@ class AdminController extends Controller
         $totalUsers = User::count();
         $totalSkills = Skill::count();
         $totalCertificates = Certificate::count();
+        $totalPortofolios = ProjectPortofolio::count();
         $activities = Activity::where('user_id', $user->id)
                             ->latest()
                             ->take(5)
                             ->get();
 
         return view('dashboard.admin.dashboard', compact(
-            'totalSkills', 'totalUsers', 'totalCertificates', 'user', 'activities'
+            'totalSkills', 'totalUsers', 'totalCertificates', 'totalPortofolios', 'user', 'activities'
         ));
     }
 
     // =================
     // About
     // =================
-    public function about() {
+    public function about()
+    {
+        $about = AboutMe::first();
         $user = User::find(session('user_id'));
-        return view('dashboard.admin.about', compact('user'));
+
+        return view('dashboard.admin.about', compact('about', 'user'));
+    }
+
+    public function aboutStore(Request $request)
+    {
+        $request->validate([
+            'image' => 'required|image|max:2048',
+            'description' => 'required',
+            'years_experience' => 'required|integer|min:0',
+            'certification_total' => 'required|integer|min:0',
+            'companies_worked' => 'required|integer|min:0',
+            'cv_file' => 'nullable|mimes:pdf,doc,docx|max:4096',
+        ]);
+
+        $imagePath = $request->file('image')->store('about', 'public');
+        $cvPath = $request->file('cv_file')?->store('cv_files', 'public');
+
+        AboutMe::create([
+            'image' => $imagePath,
+            'description' => $request->description,
+            'years_experience' => $request->years_experience,
+            'certification_total' => $request->certification_total,
+            'companies_worked' => $request->companies_worked,
+            'cv_file' => $cvPath,
+        ]);
+
+        return back()->with('success', 'About Me berhasil ditambahkan.');
+    }
+
+    public function aboutUpdate(Request $request, $id)
+    {
+        $about = AboutMe::findOrFail($id);
+
+        $request->validate([
+            'description' => 'required',
+            'years_experience' => 'required|integer|min:0',
+            'certification_total' => 'required|integer|min:0',
+            'companies_worked' => 'required|integer|min:0',
+            'image' => 'nullable|image|max:2048',
+            'cv_file' => 'nullable|mimes:pdf,doc,docx|max:4096',
+        ]);
+
+        if ($request->hasFile('image')) {
+            if ($about->image && Storage::disk('public')->exists($about->image)) {
+                Storage::disk('public')->delete($about->image);
+            }
+            $about->image = $request->file('image')->store('about', 'public');
+        }
+
+        if ($request->hasFile('cv_file')) {
+            if ($about->cv_file && Storage::disk('public')->exists($about->cv_file)) {
+                Storage::disk('public')->delete($about->cv_file);
+            }
+            $about->cv_file = $request->file('cv_file')->store('cv_files', 'public');
+        }
+
+        $about->description = $request->description;
+        $about->years_experience = $request->years_experience;
+        $about->certification_total = $request->certification_total;
+        $about->companies_worked = $request->companies_worked;
+        $about->save();
+
+        return back()->with('success', 'About Me berhasil diperbarui.');
+    }
+
+    public function aboutDelete($id)
+    {
+        $about = AboutMe::findOrFail($id);
+
+        if ($about->image && Storage::disk('public')->exists($about->image)) {
+            Storage::disk('public')->delete($about->image);
+        }
+
+        if ($about->cv_file && Storage::disk('public')->exists($about->cv_file)) {
+            Storage::disk('public')->delete($about->cv_file);
+        }
+
+        $about->delete();
+
+        return back()->with('success', 'About Me berhasil dihapus.');
     }
 
     // =================

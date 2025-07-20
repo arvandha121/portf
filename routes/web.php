@@ -19,6 +19,8 @@ use App\Http\Controllers\ContactController;
 */
 
 Route::get('/', [DashboardController::class, 'index'])->name('home');
+Route::get('/about', [DashboardController::class, 'aboutme'])->name('about');
+Route::get('/download-cv', [AdminController::class, 'downloadCV'])->name('download.cv');
 Route::get('/skill', [DashboardController::class, 'layoutskill'])->name('layoutskill');
 
 Route::get('/login', [AuthController::class, 'loginForm'])->name('login');
@@ -35,6 +37,9 @@ Route::middleware('custom.auth')->group(function () {
     // ABOUT ROUTES
     // =================
     Route::get('/admin/about', [AdminController::class, 'about'])->name('admin.about');
+    Route::post('/admin/about', [AdminController::class, 'aboutStore'])->name('admin.about.store');
+    Route::put('/admin/about/{id}', [AdminController::class, 'aboutUpdate'])->name('admin.about.update');
+    Route::delete('/admin/about/{id}', [AdminController::class, 'aboutDelete'])->name('admin.about.delete');
     
     // =================
     // SKILL ROUTES
