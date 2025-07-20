@@ -24,7 +24,8 @@
                     class="{{ request()->is('certification') ? 'text-cyan-500 font-semibold' : 'hover:text-cyan-500' }}">
                     Certification
                 </a>
-                <a href="#portfolio" class="hover:text-cyan-500">
+                <a href="{{ route('portofolio') }}"
+                    class="{{ request()->is('portofolio') ? 'text-cyan-500 font-semibold' : 'hover:text-cyan-500' }}">
                     Portfolio
                 </a>
             </nav>
@@ -44,7 +45,8 @@
                         class="block px-4 py-2 hover:bg-gray-100 text-gray-700">Skills</a>
                     <a href="{{ route('certification') }}"
                         class="block px-4 py-2 hover:bg-gray-100 text-gray-700">Certification</a>
-                    <a href="#portfolio" class="block px-4 py-2 hover:bg-gray-100 text-gray-700">Portfolio</a>
+                    <a href="{{ route('portofolio') }}"
+                        class="block px-4 py-2 hover:bg-gray-100 text-gray-700">Portfolio</a>
                 </div>
             </div>
         </div>

@@ -14,8 +14,10 @@ class ProjectPortofolio extends Model
     protected $fillable = [
         'user_id',
         'title',
+        'tipe',
         'description',
         'image',
+        'link',
     ];
 
     public function user()

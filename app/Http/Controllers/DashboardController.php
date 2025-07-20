@@ -11,6 +11,7 @@ use App\Models\SkillDetail;
 use App\Models\AboutMe;
 use App\Models\Certificate;
 use App\Models\CertificateDetail;
+use App\Models\ProjectPortofolio;
 
 class DashboardController extends Controller
 {
@@ -47,6 +48,11 @@ class DashboardController extends Controller
     {
         $certificates = Certificate::with('details')->get();
         return view('dashboard.layouts.certificate', compact('certificates'));
+    }
+
+    public function portofolio() {
+        $projects = ProjectPortofolio::all();
+        return view('dashboard.layouts.portofolio', compact('projects'));
     }
 
 }

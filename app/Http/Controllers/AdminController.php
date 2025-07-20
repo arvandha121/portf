@@ -576,17 +576,18 @@ class AdminController extends Controller
 
     public function portofolio() {
         $user = User::find(session('user_id'));
-
         $portofolios = ProjectPortofolio::where('user_id', $user->id)->get();
         return view('dashboard.admin.portofolio', compact('user', 'portofolios'));
     }
-    
+
     public function storePortofolio(Request $request)
     {
         $request->validate([
             'title' => 'required|string|max:255',
+            'tipe' => 'required|string|max:100',
             'description' => 'required|string',
             'image' => 'required|image|mimes:jpg,jpeg,png|max:2048',
+            'link' => 'nullable|url|max:255',
         ]);
 
         $imagePath = $request->file('image')->store('portofolio', 'public');
@@ -594,8 +595,10 @@ class AdminController extends Controller
         ProjectPortofolio::create([
             'user_id' => session('user_id'),
             'title' => $request->title,
+            'tipe' => $request->tipe,
             'description' => $request->description,
             'image' => $imagePath,
+            'link' => $request->link,
         ]);
 
         return redirect()->route('admin.portf')->with('success', 'Portofolio berhasil ditambahkan.');
@@ -607,12 +610,13 @@ class AdminController extends Controller
 
         $request->validate([
             'title' => 'required|string|max:255',
+            'tipe' => 'required|string|max:100',
             'description' => 'required|string',
             'image' => 'nullable|image|mimes:jpg,jpeg,png|max:2048',
+            'link' => 'nullable|url|max:255',
         ]);
 
         if ($request->hasFile('image')) {
-            // Hapus gambar lama
             if ($portofolio->image) {
                 Storage::disk('public')->delete($portofolio->image);
             }
@@ -622,7 +626,9 @@ class AdminController extends Controller
         }
 
         $portofolio->title = $request->title;
+        $portofolio->tipe = $request->tipe;
         $portofolio->description = $request->description;
+        $portofolio->link = $request->link;
         $portofolio->save();
 
         return redirect()->route('admin.portf')->with('success', 'Portofolio berhasil diupdate.');
