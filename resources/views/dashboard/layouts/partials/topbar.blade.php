@@ -20,7 +20,8 @@
                     class="{{ request()->is('skill') ? 'text-cyan-500 font-semibold' : 'hover:text-cyan-500' }}">
                     Skills
                 </a>
-                <a href="#certification" class="hover:text-cyan-500">
+                <a href="{{ route('certification') }}"
+                    class="{{ request()->is('certification') ? 'text-cyan-500 font-semibold' : 'hover:text-cyan-500' }}">
                     Certification
                 </a>
                 <a href="#portfolio" class="hover:text-cyan-500">
@@ -41,7 +42,8 @@
                     <a href="{{ route('about') }}" class="block px-4 py-2 hover:bg-gray-100 text-gray-700">About</a>
                     <a href="{{ route('layoutskill') }}"
                         class="block px-4 py-2 hover:bg-gray-100 text-gray-700">Skills</a>
-                    <a href="#certification" class="block px-4 py-2 hover:bg-gray-100 text-gray-700">Certification</a>
+                    <a href="{{ route('certification') }}"
+                        class="block px-4 py-2 hover:bg-gray-100 text-gray-700">Certification</a>
                     <a href="#portfolio" class="block px-4 py-2 hover:bg-gray-100 text-gray-700">Portfolio</a>
                 </div>
             </div>

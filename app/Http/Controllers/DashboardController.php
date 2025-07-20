@@ -9,6 +9,8 @@ use App\Models\Sosmed;
 use App\Models\Skill;
 use App\Models\SkillDetail;
 use App\Models\AboutMe;
+use App\Models\Certificate;
+use App\Models\CertificateDetail;
 
 class DashboardController extends Controller
 {
@@ -40,4 +42,11 @@ class DashboardController extends Controller
         $about = AboutMe::first();
         return view('dashboard.layouts.about', compact('about'));
     }
+
+    public function certificationLayout()
+    {
+        $certificates = Certificate::with('details')->get();
+        return view('dashboard.layouts.certificate', compact('certificates'));
+    }
+
 }

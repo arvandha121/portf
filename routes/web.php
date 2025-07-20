@@ -22,6 +22,7 @@ Route::get('/', [DashboardController::class, 'index'])->name('home');
 Route::get('/about', [DashboardController::class, 'aboutme'])->name('about');
 Route::get('/download-cv', [AdminController::class, 'downloadCV'])->name('download.cv');
 Route::get('/skill', [DashboardController::class, 'layoutskill'])->name('layoutskill');
+Route::get('/certification', [DashboardController::class, 'certificationLayout'])->name('certification');
 
 Route::get('/login', [AuthController::class, 'loginForm'])->name('login');
 Route::post('/login', [AuthController::class, 'login']);

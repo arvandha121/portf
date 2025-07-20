@@ -105,6 +105,11 @@
                                     class="w-full border border-gray-300 rounded-md px-2 py-1">
                                 <input type="file" name="image" accept="image/*"
                                     class="w-full border border-gray-300 rounded-md px-2 py-1">
+                                @error('image')
+                                    <div class="text-red-500 text-sm mt-1">
+                                        {{ $message }}
+                                    </div>
+                                @enderror
                                 <button type="submit"
                                     class="bg-yellow-500 hover:bg-yellow-600 text-white rounded-md px-4 py-1">
                                     Update
