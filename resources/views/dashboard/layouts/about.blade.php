@@ -23,8 +23,9 @@
 
                     {{-- Deskripsi & Statistik --}}
                     <div>
-                        <p class="text-gray-700 text-sm sm:text-base leading-relaxed mb-6 sm:mb-8 text-justify">
-                            {{ $about->description }}
+                        <p
+                            class="whitespace-pre-line text-gray-700 text-sm sm:text-base leading-relaxed mb-6 sm:mb-8 text-justify">
+                            {{ str_replace('\n', "\n", $about->description) }}
                         </p>
 
                         <div class="grid grid-cols-2 sm:grid-cols-3 gap-4 sm:gap-6 text-center mb-6 sm:mb-8">

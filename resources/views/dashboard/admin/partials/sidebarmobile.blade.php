@@ -11,6 +11,11 @@
         <div class="grid grid-cols-3 gap-6 text-center">
             <a href="{{ route('admin.dashboard') }}"
                 class="flex flex-col items-center {{ request()->routeIs('admin.dashboard') ? 'text-blue-600 font-semibold' : 'text-gray-700' }} hover:text-blue-600">
+                <i data-feather="layout" class="w-6 h-6 mb-1"></i>
+                <span class="text-sm">Dashboard</span>
+            </a>
+            <a href="{{ route('homes.index') }}"
+                class="flex flex-col items-center {{ request()->routeIs('homes.index') ? 'text-blue-600 font-semibold' : 'text-gray-700' }} hover:text-blue-600">
                 <i data-feather="home" class="w-6 h-6 mb-1"></i>
                 <span class="text-sm">Dashboard</span>
             </a>

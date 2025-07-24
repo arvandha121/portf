@@ -11,7 +11,8 @@
 
 <body class="bg-gradient-to-br from-blue-100 to-white min-h-screen flex items-center justify-center px-4">
     <div class="login-box bg-white/90 shadow-2xl rounded-2xl w-full max-w-md p-8 md:p-10">
-        <h1 class="text-3xl md:text-4xl font-bold text-center text-gray-800 mb-8">Selamat Datang 👋</h1>
+        <h1 class="text-3xl md:text-4xl font-bold text-center text-gray-800 mb-8">Selamat Datang <a
+                href="{{ route('home') }}">👋</a></h1>
 
         @if (session('error'))
             <div class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded mb-4 text-sm">

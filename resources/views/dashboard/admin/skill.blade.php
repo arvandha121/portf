@@ -3,7 +3,7 @@
 @section('page-title', 'My Skills')
 
 @section('content')
-    <div class="space-y-8 px-4 sm:px-6 lg:px-10">
+    <div class="space-y-8 px-4 sm:px-6 lg:px-10 pt-6">
         @if (session('error'))
             <div class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded mb-4 text-sm">
                 {{ session('error') }}
@@ -15,14 +15,17 @@
                 {{ session('success') }}
             </div>
         @endif
+
         {{-- FORM TAMBAH SKILL --}}
         <div class="bg-white rounded-xl shadow p-6 border border-gray-200">
             <h2 class="text-lg font-semibold text-gray-800 mb-4">Tambah Skill Baru</h2>
-            <form action="{{ route('admin.skills.create') }}" method="POST" class="flex flex-col sm:flex-row gap-3">
+            <form action="{{ route('admin.skills.create') }}" method="POST"
+                class="grid grid-cols-1 sm:flex sm:flex-row gap-3">
                 @csrf
                 <input type="text" name="title" placeholder="Contoh: Web Development"
                     class="flex-1 px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-400 focus:outline-none">
-                <button type="submit" class="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition">
+                <button type="submit"
+                    class="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition w-full sm:w-auto">
                     + Tambah
                 </button>
             </form>
@@ -32,25 +35,25 @@
         @foreach ($skills as $skill)
             <div class="bg-white rounded-xl shadow p-6 border border-gray-200 space-y-6">
                 {{-- UPDATE TITLE + DELETE --}}
-                <div class="flex flex-col md:flex-row md:items-center justify-between gap-4">
+                <div class="grid grid-cols-1 sm:flex sm:flex-row sm:items-center justify-between gap-4">
                     <form action="{{ route('admin.skills.update', $skill->id) }}" method="POST" class="flex-1">
                         @csrf
                         @method('PUT')
-                        <div class="flex flex-col sm:flex-row items-center gap-3">
+                        <div class="grid grid-cols-1 sm:flex sm:flex-row items-center gap-3 w-full">
                             <input type="text" name="title" value="{{ $skill->title }}"
                                 class="w-full sm:flex-1 px-4 py-2 border-b-2 border-gray-300 text-xl font-semibold text-gray-800 focus:outline-none focus:border-blue-500 transition">
                             <button type="submit"
-                                class="px-4 py-2 bg-blue-500 text-white rounded-md hover:bg-blue-600 transition">
+                                class="px-4 py-2 bg-blue-500 text-white rounded-md hover:bg-blue-600 transition w-full sm:w-auto">
                                 Simpan
                             </button>
                         </div>
                     </form>
                     <form action="{{ route('admin.skills.delete', $skill->id) }}" method="POST"
-                        onsubmit="return confirm('Yakin mau hapus skill ini?')">
+                        onsubmit="return confirm('Yakin mau hapus skill ini?')" class="w-full sm:w-auto">
                         @csrf
                         @method('DELETE')
                         <button type="submit"
-                            class="px-4 py-2 bg-red-500 text-white rounded-lg hover:bg-red-600 transition text-sm mt-2 md:mt-0">
+                            class="w-full sm:w-auto px-4 py-2 bg-red-500 text-white rounded-lg hover:bg-red-600 transition text-sm mt-2 sm:mt-0">
                             🗑️ Hapus Skill
                         </button>
                     </form>
