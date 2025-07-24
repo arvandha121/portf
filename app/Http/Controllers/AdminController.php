@@ -15,6 +15,8 @@ use App\Models\Certificate;
 use App\Models\CertificateDetail;
 use App\Models\ProjectPortofolio;
 use App\Models\AboutMe;
+use Illuminate\Support\Facades\File;
+use Illuminate\Support\Facades\Artisan;
 
 class AdminController extends Controller
 {
@@ -265,9 +267,80 @@ class AdminController extends Controller
         return back()->with('success', 'Detail skill berhasil dihapus.');
     }
 
-    public function settings() {
+    // =======================
+    // Settings
+    // =======================
+    public function settings()
+    {
         $user = User::find(session('user_id'));
-        return view('dashboard.admin.settings', compact('user'));
+
+        $mail = [
+            'MAIL_MAILER'        => env('MAIL_MAILER'),
+            'MAIL_HOST'          => env('MAIL_HOST'),
+            'MAIL_PORT'          => env('MAIL_PORT'),
+            'MAIL_USERNAME'      => env('MAIL_USERNAME'),
+            'MAIL_PASSWORD'      => env('MAIL_PASSWORD'),
+            'MAIL_ENCRYPTION'    => env('MAIL_ENCRYPTION'),
+            'MAIL_FROM_ADDRESS'  => env('MAIL_FROM_ADDRESS'),
+        ];
+
+        return view('dashboard.admin.settings', compact('user', 'mail'));
+    }
+
+    public function updateAppSettings(Request $request)
+    {
+        $request->validate([
+            'app_name' => 'required|string|max:255',
+            'app_debug' => 'required|in:true,false',
+        ]);
+
+        $path = base_path('.env');
+
+        if (!File::exists($path)) {
+            return redirect()->back()->with('error', '.env file not found.');
+        }
+
+        $env = File::get($path);
+
+        // Update APP_NAME dan APP_DEBUG
+        $env = preg_replace('/^APP_NAME=.*/m', 'APP_NAME="' . $request->app_name . '"', $env);
+        $env = preg_replace('/^APP_DEBUG=.*/m', 'APP_DEBUG=' . $request->app_debug, $env);
+
+        File::put($path, $env);
+        Artisan::call('config:clear');
+
+        return redirect()->back()->with('success', 'Pengaturan aplikasi berhasil diperbarui!');
+    }
+
+    public function updateEnv(Request $request)
+    {
+        $request->validate([
+            'MAIL_MAILER'       => 'required',
+            'MAIL_HOST'         => 'required',
+            'MAIL_PORT'         => 'required|numeric',
+            'MAIL_USERNAME'     => 'required|email',
+            'MAIL_PASSWORD'     => 'required',
+            'MAIL_ENCRYPTION'   => 'nullable',
+            'MAIL_FROM_ADDRESS' => 'required|email',
+        ]);
+
+        $envPath = base_path('.env');
+        $env = File::get($envPath);
+
+        foreach ($request->only([
+            'MAIL_MAILER', 'MAIL_HOST', 'MAIL_PORT', 'MAIL_USERNAME', 'MAIL_PASSWORD',
+            'MAIL_ENCRYPTION', 'MAIL_FROM_ADDRESS'
+        ]) as $key => $value) {
+            $escaped = addslashes($value);
+            $env = preg_replace("/^{$key}=.*/m", "{$key}=\"{$escaped}\"", $env);
+        }
+
+        File::put($envPath, $env);
+
+        // Clear config cache
+        Artisan::call('config:clear');
+
+        return back()->with('success', 'Pengaturan email berhasil diperbarui!');
     }
 
     // =================

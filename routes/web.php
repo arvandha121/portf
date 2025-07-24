@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use Illuminate\Support\Facades\Artisan;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\ProjectController;
 use App\Http\Controllers\AuthController;
@@ -36,7 +37,9 @@ Route::middleware('custom.auth')->group(function () {
     // =================
     Route::get('/admin', [AdminController::class, 'index'])->name('admin.dashboard');
 
+    // =================
     // HOME ROUTES
+    // =================
     Route::resource('homes', HomeController::class);
 
     // =================
@@ -58,7 +61,9 @@ Route::middleware('custom.auth')->group(function () {
     Route::put('/admin/skills/{skill}', [AdminController::class, 'updateSkill'])->name('admin.skills.update');
     Route::put('/admin/skills/details/{detail}', [AdminController::class, 'updateSkillDetail'])->name('admin.skills.details.update');
 
-    // Certificate Routes
+    // ===================
+    // CERTIFICATES ROUTES
+    // ===================
     Route::get('/admin/sertif', [AdminController::class, 'sertif'])->name('admin.sertif');
     Route::post('/admin/sertif/create', [AdminController::class, 'storeCertificate'])->name('admin.sertif.create');
     Route::delete('/admin/sertif/{id}/delete', [AdminController::class, 'deleteCertificate'])->name('admin.sertif.delete');
@@ -68,6 +73,9 @@ Route::middleware('custom.auth')->group(function () {
     Route::put('/admin/sertif/{id}/update', [AdminController::class, 'updateCertificate'])->name('admin.sertif.update');
     Route::put('/admin/sertif/detail/{id}/update', [AdminController::class, 'updateCertificateDetail'])->name('admin.sertif.detail.update');
 
+    // =================
+    // PORTOFOLIO ROUTES
+    // =================
 
     Route::get('/admin/portf', [AdminController::class, 'portofolio'])->name('admin.portf');
     Route::post('/admin/portf/store', [AdminController::class, 'storePortofolio'])->name('admin.portf.store');
@@ -82,7 +90,12 @@ Route::middleware('custom.auth')->group(function () {
     Route::put('/admin/medsos/{id}/update', [AdminController::class, 'updateSosmed'])->name('admin.medsos.update');
     Route::delete('/admin/medsos/{id}/delete', [AdminController::class, 'deleteSosmed'])->name('admin.medsos.delete');
 
+    // =================
+    // SETTINGS ROUTES
+    // =================
     Route::get('/admin/settings', [AdminController::class, 'settings'])->name('admin.settings');
+    Route::post('/admin/settings/update-app', [AdminController::class, 'updateAppSettings'])->name('settings.updateAppSettings');
+    Route::post('/admin/settings/update-env', [AdminController::class, 'updateEnv'])->name('admin.update.env');
 });
 
 Route::get('/admin/profile', [AdminController::class, 'profile'])->name('admin.profile');
