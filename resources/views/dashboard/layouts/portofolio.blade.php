@@ -24,9 +24,10 @@
             </p>
 
             {{-- Filter Buttons --}}
-            <div class="flex flex-wrap justify-center gap-3 mb-10">
+            <div class="flex flex-wrap justify-center gap-3 mb-10 px-2 overflow-x-auto">
                 <template x-for="type in uniqueTypes()" :key="type">
-                    <button class="px-4 py-2 rounded-full text-sm font-medium transition duration-200 ease-in-out"
+                    <button
+                        class="px-4 py-2 rounded-full text-sm font-medium transition duration-200 ease-in-out whitespace-nowrap"
                         :class="selectedType === type ? 'bg-indigo-600 text-white shadow' :
                             'bg-gray-100 text-gray-700 hover:bg-gray-200 hover:text-black'"
                         x-text="type === 'all' ? 'Semua' : type" @click="selectedType = type">
@@ -43,73 +44,22 @@
 
             {{-- Portfolio Cards --}}
             <div class="flex justify-center">
-                <template x-if="selectedType === 'all'">
-                    <div class="grid gap-6"
-                        :class="{
-                            'grid-cols-1': filteredProjects.length === 1,
-                            'grid-cols-2': filteredProjects.length === 2,
-                            'grid-cols-3': filteredProjects.length >= 3
-                        }">
-                        <template x-for="project in filteredProjects" :key="project.id">
-                            <div class="bg-white rounded-xl shadow-md hover:shadow-lg hover:scale-[1.02] transition-transform duration-300 cursor-pointer p-4"
-                                @click="selectedProject = project">
-                                <div class="aspect-[2/1] overflow-hidden rounded-lg mb-3">
-                                    <img :src="'/storage/' + project.image" alt=""
-                                        class="w-full h-[300px] object-cover transition duration-300 hover:scale-105">
-                                </div>
-                                <div class="space-y-2">
-                                    <h3 class="text-lg font-semibold text-gray-800" x-text="project.title"></h3>
-                                    <p class="text-sm text-indigo-600 font-medium" x-text="project.tipe"></p>
-                                    <p class="text-sm text-gray-600 line-clamp-3" x-text="project.description"></p>
-                                </div>
+                <div class="grid gap-4 sm:gap-6 grid-cols-1 sm:grid-cols-2 md:grid-cols-3 w-full px-2 sm:px-0">
+                    <template x-for="project in filteredProjects" :key="project.id">
+                        <div class="bg-white rounded-xl shadow-md hover:shadow-lg hover:scale-[1.02] transition-transform duration-300 cursor-pointer p-4"
+                            @click="selectedProject = project">
+                            <div class="aspect-[3/2] overflow-hidden rounded-lg mb-3">
+                                <img :src="'/storage/' + project.image" alt=""
+                                    class="w-full h-full object-cover transition duration-300 hover:scale-105">
                             </div>
-                        </template>
-                    </div>
-                </template>
-
-                <template x-if="selectedType !== 'all'">
-                    <div class="flex justify-center">
-                        <div class="grid gap-6"
-                            :class="{
-                                'grid-cols-1': filteredProjects.length === 1,
-                                'grid-cols-2': filteredProjects.length >= 2
-                            }">
-                            <template x-for="project in filteredProjects" :key="project.id">
-                                <div class="bg-white rounded-xl shadow-md hover:shadow-lg hover:scale-[1.02] transition-transform duration-300 cursor-pointer w-[440px] md:w-[500px] p-6"
-                                    @click="selectedProject = project">
-                                    <div class="aspect-[6/3] overflow-hidden rounded-lg mb-4">
-                                        <img :src="'/storage/' + project.image" alt=""
-                                            class="w-full h-[320px] object-cover transition duration-300 hover:scale-105">
-                                    </div>
-                                    <div class="space-y-3">
-                                        <h3 class="text-xl font-semibold text-gray-800" x-text="project.title"></h3>
-                                        <p class="text-sm text-indigo-600 font-medium" x-text="project.tipe"></p>
-                                        <p class="text-sm text-gray-600 line-clamp-4" x-text="project.description"></p>
-                                    </div>
-                                </div>
-                            </template>
+                            <div class="space-y-2">
+                                <h3 class="text-lg font-semibold text-gray-800" x-text="project.title"></h3>
+                                <p class="text-sm text-indigo-600 font-medium" x-text="project.tipe"></p>
+                                <p class="text-sm text-gray-600 line-clamp-3" x-text="project.description"></p>
+                            </div>
                         </div>
-                    </div>
-                </template>
-
-                {{-- <template x-if="selectedType !== 'all'">
-                    <div class="grid gap-6 grid-cols-1 sm:grid-cols-2 md:grid-cols-3">
-                        <template x-for="project in filteredProjects" :key="project.id">
-                            <div class="bg-white rounded-xl shadow-md hover:shadow-lg hover:scale-[1.02] transition-transform duration-300 cursor-pointer p-4"
-                                @click="selectedProject = project">
-                                <div class="aspect-[3/2] overflow-hidden rounded-lg mb-3">
-                                    <img :src="'/storage/' + project.image" alt=""
-                                        class="w-full h-[350px] object-cover transition duration-300 hover:scale-105">
-                                </div>
-                                <div class="space-y-2">
-                                    <h3 class="text-base font-semibold text-gray-800" x-text="project.title"></h3>
-                                    <p class="text-sm text-indigo-600 font-medium" x-text="project.tipe"></p>
-                                    <p class="text-sm text-gray-600 line-clamp-3" x-text="project.description"></p>
-                                </div>
-                            </div>
-                        </template>
-                    </div>
-                </template> --}}
+                    </template>
+                </div>
             </div>
         </div>
 
