@@ -9,7 +9,7 @@
 
 ## Demo
 
-Demo website mylinktree <a href="https://portofolio.arvandhaa.my.id/" target="_blank">Klik Disini</a>.
+Demo website <a href="https://portofolio.arvandhaa.my.id/" target="_blank">Klik Disini</a>.
 
 ## Installation Guide
 
