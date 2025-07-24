@@ -26,12 +26,7 @@ class AppServiceProvider extends ServiceProvider
     public function boot()
     {
         View::composer('*', function ($view) {
-            $sosmeds = collect();
-            if (session()->has('user_id')) {
-                $userId = session('user_id');
-                $sosmeds = Sosmed::where('user_id', $userId)->get();
-            }
-            $view->with('sosmeds', $sosmeds);
+            $view->with('sosmeds', Sosmed::all());
         });
     }
 }

@@ -6,6 +6,7 @@ use App\Http\Controllers\ProjectController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\ContactController;
+use App\Http\Controllers\HomeController;
 
 /*
 |--------------------------------------------------------------------------
@@ -34,6 +35,9 @@ Route::middleware('custom.auth')->group(function () {
     // DASHBOARD ROUTES
     // =================
     Route::get('/admin', [AdminController::class, 'index'])->name('admin.dashboard');
+
+    // HOME ROUTES
+    Route::resource('homes', HomeController::class);
 
     // =================
     // ABOUT ROUTES

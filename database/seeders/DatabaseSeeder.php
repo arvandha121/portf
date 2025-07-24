@@ -18,6 +18,7 @@ class DatabaseSeeder extends Seeder
             UserSeeder::class,
             SosmedSeeder::class,
             SkillSeeder::class,
+            HomesSeeder::class,
         ]);
     }
 }

@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use App\Models\Homes;
 use App\Models\User;
 use App\Models\Sosmed;
 use App\Models\Skill;
@@ -16,18 +17,11 @@ use App\Models\ProjectPortofolio;
 class DashboardController extends Controller
 {
     public function index() {
-        $user = null;
-        $sosmeds = collect();
+        $user = User::find(session('user_id'));
+        $home = Homes::first();
+        $sosmeds = Sosmed::all();
 
-        if (session()->has('user_id')) {
-            $user = User::find(session('user_id'));
-
-            if ($user) {
-                $sosmeds = Sosmed::where('user_id', $user->id)->get();
-            }
-        }
-
-        return view('dashboard.layouts.home', compact('user', 'sosmeds'));
+        return view('dashboard.layouts.home', compact('user', 'sosmeds', 'home'));
     }
 
     public function layoutskill() {

@@ -6,8 +6,14 @@
     <nav class="flex-1 px-3 py-5 space-y-1">
         <a href="{{ route('admin.dashboard') }}"
             class="nav-item {{ request()->routeIs('admin.dashboard') ? 'bg-gray-200 text-blue-600' : '' }}">
-            <i data-feather="home"></i>
+            <i data-feather="layout"></i>
             <span class="sidebar-text">Dashboard</span>
+        </a>
+
+        <a href="{{ route('homes.index') }}"
+            class="nav-item {{ request()->routeIs('homes.index') ? 'bg-gray-200 text-blue-600' : '' }}">
+            <i data-feather="home"></i>
+            <span class="sidebar-text">Homes</span>
         </a>
 
         <a href="{{ route('admin.about') }}"

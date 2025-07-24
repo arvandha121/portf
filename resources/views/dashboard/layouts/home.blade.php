@@ -5,26 +5,54 @@
         <div class="hero-container">
             {{-- Image - mobile di atas, desktop di kanan --}}
             <div class="hero-img">
-                <img src="{{ asset('images/profile.jpg') }}" alt="Profile Photo">
+                <img src="{{ asset($home->gambar) }}" alt="{{ $home->nama }}"
+                    class="cursor-pointer transition duration-300 ease-in-out hover:scale-105"
+                    onclick="openImageModal('{{ asset($home->gambar) }}')">
             </div>
 
             {{-- Text --}}
             <div class="hero-text">
                 <h2>Hi, I'm</h2>
-                <h1>Arief Nauvan Ramadha</h1>
-                <h3>Informatics Engineering Graduate (GPA 3.62)<br>State Polytechnic of Malang, 2024</h3>
+                <h1>{{ $home->nama }}</h1>
+                <h3 class="whitespace-pre-line text-gray-700 font-medium">
+                    {{ str_replace('\n', "\n", $home->latarbelakang) }}
+                </h3>
                 <p>
-                    I'm usually called Nauvan. I have a strong passion for website and mobile development.
+                    {{ $home->teks }}
                 </p>
                 <a href="{{ route('contact.create') }}" class="btn-contact">
                     Contact Me <i data-feather="arrow-right"></i>
                 </a>
-
-                {{-- <a href="https://mail.google.com/mail/u/0/?tf=cm&amp;fs=1&amp;to=cparvandha@gmail.com" class="btn-contact"
-                    target="_blank">
-                    Contact Me <i data-feather="arrow-right"></i>
-                </a> --}}
             </div>
         </div>
+
+        {{-- Modal --}}
+        <div id="imageModal"
+            class="fixed inset-0 bg-black bg-opacity-80 flex items-center justify-center z-50 opacity-0 scale-95 pointer-events-none transition duration-300 ease-out"
+            onclick="closeImageModal()" style="cursor: auto">
+            <img id="modalImage"
+                class="max-w-full max-h-full rounded-lg shadow-lg transform transition duration-300 ease-in-out"
+                alt="Zoomed Image">
+        </div>
     </section>
+
+    <script>
+        function openImageModal(src) {
+            const modal = document.getElementById('imageModal');
+            const image = document.getElementById('modalImage');
+            image.src = src;
+            modal.classList.remove('opacity-0', 'scale-95', 'pointer-events-none');
+            modal.classList.add('opacity-100', 'scale-100');
+        }
+
+        function closeImageModal() {
+            const modal = document.getElementById('imageModal');
+            const image = document.getElementById('modalImage');
+            modal.classList.add('opacity-0', 'scale-95', 'pointer-events-none');
+            modal.classList.remove('opacity-100', 'scale-100');
+            setTimeout(() => {
+                image.src = '';
+            }, 300); // biar smooth
+        }
+    </script>
 @endsection
