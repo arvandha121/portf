@@ -3,27 +3,32 @@
 @section('content')
     <section class="hero bg-gray-50">
         <div class="hero-container">
-            {{-- Image - mobile di atas, desktop di kanan --}}
-            <div class="hero-img">
-                <img src="{{ asset($home->gambar) }}" alt="{{ $home->nama }}"
-                    class="cursor-pointer transition duration-300 ease-in-out hover:scale-105"
-                    onclick="openImageModal('{{ asset($home->gambar) }}')">
-            </div>
+            @if ($home)
+                {{-- Image --}}
+                <div class="hero-img">
+                    <img src="{{ asset($home->gambar) }}" alt="{{ $home->nama }}"
+                        class="cursor-pointer transition duration-300 ease-in-out hover:scale-105"
+                        onclick="openImageModal('{{ asset($home->gambar) }}')">
+                </div>
 
-            {{-- Text --}}
-            <div class="hero-text">
-                <h2>Hi, I'm</h2>
-                <h1>{{ $home->nama }}</h1>
-                <h3 class="whitespace-pre-line text-gray-700 font-medium">
-                    {{ str_replace('\n', "\n", $home->latarbelakang) }}
-                </h3>
-                <p>
-                    {{ $home->teks }}
-                </p>
-                <a href="{{ route('contact.create') }}" class="btn-contact">
-                    Contact Me <i data-feather="arrow-right"></i>
-                </a>
-            </div>
+                {{-- Text --}}
+                <div class="hero-text">
+                    <h2>Hi, I'm</h2>
+                    <h1>{{ $home->nama }}</h1>
+                    <h3 class="whitespace-pre-line text-gray-700 font-medium">
+                        {{ str_replace('\n', "\n", $home->latarbelakang) }}
+                    </h3>
+                    <p>{{ $home->teks }}</p>
+                    <a href="{{ route('contact.create') }}" class="btn-contact">
+                        Contact Me <i data-feather="arrow-right"></i>
+                    </a>
+                </div>
+            @else
+                <div class="text-center text-gray-500 py-10">
+                    <p class="text-lg font-semibold">Data belum tersedia.</p>
+                    <p class="text-sm text-gray-400">Silakan tambahkan data melalui dashboard admin.</p>
+                </div>
+            @endif
         </div>
 
         {{-- Modal --}}
@@ -52,7 +57,7 @@
             modal.classList.remove('opacity-100', 'scale-100');
             setTimeout(() => {
                 image.src = '';
-            }, 300); // biar smooth
+            }, 300);
         }
     </script>
 @endsection
